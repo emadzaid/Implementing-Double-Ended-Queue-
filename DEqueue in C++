@@ -1,0 +1,140 @@
+#include<iostream>
+#include <cstdlib>
+
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node * next;
+};
+
+struct node * front = NULL;
+struct node * rear = NULL;
+
+bool isFull(struct node * ptr)
+{
+    return ptr == NULL;
+}
+
+bool isEmpty(struct node * front)
+{
+    return front == NULL;
+}
+
+void enqueueRear(int data)
+{
+    struct node * ptr = new node;
+    ptr->data = data;
+    ptr->next = NULL;
+    if(isFull(ptr))
+    {
+        cout << "Queue overflow...\n";
+    }
+    else{
+        if(front == NULL)
+        {
+            front = rear = ptr;
+        }
+        else{
+            rear->next = ptr;
+            rear = rear->next;
+        }
+    }
+}
+
+void enqueueFront(int data)
+{
+    struct node * ptr = new node;
+    ptr->data = data;
+    if(isFull(ptr))
+    {
+        cout << "Queue overflow...\n";
+    }
+    else{
+        ptr->next = front;
+        front = ptr;
+    }
+}
+
+int dequeueFront()
+{
+    struct node * ptr = new node;
+    ptr = front;
+    
+    if(isEmpty(front))
+    {
+        cout << "Queue underflow...\n";
+        return -1;
+    }else{
+        int value = front->data;
+        front = front->next;
+        free(ptr);
+        return value;
+    }
+}
+
+int dequeueRear()
+{
+    struct node * ptr = new node;
+    ptr = front;
+    if(isEmpty(front))
+    {
+        cout << "Queue underflow...\n";
+        return -1;
+    }
+    else
+    {
+        while(ptr->next != rear)
+        {
+            ptr = ptr->next;
+        }
+    
+        int value = rear->data;
+        rear = ptr;
+        ptr = ptr->next;
+        rear->next = NULL;
+        free(ptr);
+        
+        return value;
+
+    }
+}
+
+void display()
+{
+    struct node * ptr = front;
+    if(isEmpty(ptr))
+    {
+        cout << "Queue is Empty";
+    }
+    else
+        {
+        while(ptr != NULL)
+        {
+            cout << ptr->data << endl;
+            ptr = ptr->next;
+        }
+    }
+}
+
+int main() {
+
+    enqueueRear(13);
+    enqueueRear(12);
+    enqueueRear(71);
+    enqueueRear(19);
+    enqueueRear(19);
+    
+    enqueueFront(99);
+    enqueueRear(99);
+    
+    dequeueFront();
+    dequeueRear();
+
+    display();
+
+  cout << endl;
+
+  return 0;
+}
